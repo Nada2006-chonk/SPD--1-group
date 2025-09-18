@@ -8,6 +8,6 @@ public class RotatingLight : MonoBehaviour
     {
         transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
     }
-
+//hej
 
 }
