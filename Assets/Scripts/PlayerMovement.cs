@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     const string Player_Run = "Run";
     const string Player_Hurt = "Hurt";
     const string Player_Dead = "Dead";
-    const string Player_Idle = "Vampire_Girl_Animation";
+    const string Player_Idle = "Idle";
     const string Player_Fall = "Fall";
 
 
