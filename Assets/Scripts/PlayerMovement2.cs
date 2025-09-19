@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement2 : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float jumpForce = 300f;
@@ -36,13 +36,12 @@ public class PlayerMovement : MonoBehaviour
     // -- animation state change (neo) --
     void ChangeAnimationState(string newState)
     {
-        //stop the animation from interrupting itself
-        if (currentState == newState) return;
+        if (currentState == newState)
+        {
+            return;
+        }
+        animator.CrossFadeInFixedTime(newState, 0.05f);
 
-        //play the animation
-        animator.Play(newState);
-
-        //reassign the current state
         currentState = newState;
     }
 
@@ -60,31 +59,35 @@ public class PlayerMovement : MonoBehaviour
     //Spelaren kan gå (Neo)
     private void FixedUpdate()
     {
+        isGrounded = CheckIfGrounded();
         rgbd.linearVelocity = new Vector2(horizontalValue * moveSpeed * Time.deltaTime, rgbd.linearVelocity.y);
 
-        //Axis checker, animator (Neo)
-        if (CheckIfGrounded() == true)
+        if (isGrounded && !jumpStarted) //idle och run om player på marken och inte påbörjat hopp
         {
-            if (horizontalValue != 0)
-            {
+            if (horizontalValue != 0f)
                 ChangeAnimationState(Player_Run);
-            }
             else
-            {
                 ChangeAnimationState(Player_Idle);
+        }
+        else if (!isGrounded)
+        {
+            //jumpStarted sätts till false i IEnumerator vilket har en delay.
+            //Hindrar att någon animation kan köras under delayen vilket skyddar jumpStart så att den inte blir overridad.
+            if (!jumpStarted)
+            {
+                float vy = rgbd.linearVelocity.y;
 
+                if (vy > 0.2f && currentState != Player_Jump) //sätter jump rise vid positiv y velocity
+                {
+                    ChangeAnimationState(Player_Jump);
+                }    
+                    
+                else if (vy < -0.2f && currentState != Player_Fall) //sätter jump fall vid negativ y velocity
+                {
+                    ChangeAnimationState(Player_Fall);
+                }    
+                   
             }
-        }
-        if (!jumpStarted)
-        {
-        if(rgbd.linearVelocity.y > 0 && isJumpPressed == true)
-        {
-            ChangeAnimationState(Player_Jump);
-        }
-        if(rgbd.linearVelocity.y < 0 && !isGrounded && isJumpPressed == false)
-        {
-            ChangeAnimationState(Player_Fall);
-        }
         }
 
     }
@@ -99,6 +102,10 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         rgbd.AddForce(new Vector2(0, jumpForce));
+        ChangeAnimationState(PLAYER_JUMPSTART);
+        jumpStarted = true;
+        //StartCoroutine och IEnumerator tillsammans kan skapa delay.
+        StartCoroutine(DoJumpAfterDelay(0.1f));
     }
 
     //check if ground (Neo)
@@ -126,6 +133,8 @@ public class PlayerMovement : MonoBehaviour
     {
         //flip sprite (Neo)
         horizontalValue = Input.GetAxis("Horizontal");
+        bool wasGrounded = isGrounded;
+        
 
         if (horizontalValue < 0)
         {
@@ -141,16 +150,18 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && CheckIfGrounded() == true)
         {
             Jump();
-            ChangeAnimationState(PLAYER_JUMPSTART);
-            jumpStarted = true;
-            //StartCoroutine och IEnumerator tillsammans kan skapa delay.
-            StartCoroutine(DoJumpAfterDelay(0.1f));
+        
         }
 
         //Checking for inputs (neo)
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             isJumpPressed = true;
+        }
+
+        if (!wasGrounded && isGrounded)
+        {
+            jumpStarted = false;
         }
     }
 
