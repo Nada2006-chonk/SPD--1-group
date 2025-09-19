@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    //neo
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float jumpForce = 300f;
     [SerializeField] private Transform LeftFoot, RightFoot;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private string currentState;
     private bool isGrounded;
     private bool isJumpPressed;
+    private bool canDoubleJump;
 
 
     //Animation States (Neo)
@@ -74,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        //jump animations (neo)
         if(rgbd.linearVelocity.y > 0 && isJumpPressed == true)
         {
             ChangeAnimationState(Player_Jump);
@@ -134,10 +137,23 @@ public class PlayerMovement : MonoBehaviour
             FlipSprite(false);
         }
 
-        //Kallar funktionen jump (Neo)
-        if (Input.GetButtonDown("Jump") && CheckIfGrounded() == true)
+        //Kallar funktionen jump + double jump (Neo)
+        if (Input.GetButtonDown("Jump"))
         {
-            Jump();
+            if(CheckIfGrounded() == true)
+            {
+                canDoubleJump = true;
+                Jump();
+            }
+            else
+            {
+                if(canDoubleJump)
+                {
+                    rgbd.AddForce(new Vector2(0, jumpForce));
+                    canDoubleJump = false;
+
+                }
+            }
 
         }
 
