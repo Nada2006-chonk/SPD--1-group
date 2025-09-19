@@ -1604,7 +1604,7 @@ GameObject:
   - component: {fileID: 171991296}
   - component: {fileID: 171991300}
   - component: {fileID: 171991301}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -2623,11 +2623,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 009aa16465beb4ae886ab44a365d6bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 1.7
-  bounciness: 100
+  MoveSpeed: 2
   knockbackForce: 200
   upwardsForce: 100
   damageGiven: 1
+  Target: {fileID: 171991299}
+  visionRange: 5
+  attackRange: 1
+  cooldown: 1
 --- !u!95 &342572268
 Animator:
   serializedVersion: 7
