@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,8 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 300f;
     [SerializeField] private Transform LeftFoot, RightFoot;
     [SerializeField] private LayerMask whatIsGround;
-
-
+    [SerializeField] private Transform SpawnPoint;
 
     private Rigidbody2D rgbd;
     private SpriteRenderer rend;
@@ -20,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private bool isJumpPressed;
     private bool canDoubleJump;
+    private bool canMove;
+    private int startingHealth = 5;
+    private int currentHealth = 0;
 
 
     //Animation States (Neo)
@@ -49,17 +53,25 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        //när spelet startar är spelaren på full hälsa och kan röra sig (neo)
+        canMove = true;
+        currentHealth = startingHealth;
+
         rgbd = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
 
     }
 
-
-
     //Spelaren kan gå (Neo)
     private void FixedUpdate()
     {
+        //avbryt rörelse om can move inte är aktiv (neo)
+        if(!canMove)
+        {
+            return;
+        }
+
         rgbd.linearVelocity = new Vector2(horizontalValue * moveSpeed * Time.deltaTime, rgbd.linearVelocity.y);
 
         //Axis checker, animator (Neo)
@@ -162,5 +174,37 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumpPressed = true;
         }
+    }
+
+    //spelare ta skada (neo)
+    public void TakeDamage(int damageAmount)
+    {
+        currentHealth -= damageAmount;
+        print(currentHealth);
+        if (currentHealth <= 0)
+        {
+            Respawn();
+        }
+    }
+
+    //spelare ta knockback (neo)
+    public void TakeKnockback(float knockbackForce, float upwards)
+    {
+        canMove = false;
+        rgbd.AddForce(new Vector2(knockbackForce, upwards));
+        Invoke("CanMoveAgain", 0.25f);
+    }
+
+    private void CanMoveAgain()
+    {
+        canMove = true;
+    }
+
+    //flyttar spelaren till spawn om hälsan blir 0
+    private void Respawn()
+    {
+        currentHealth = startingHealth;
+        transform.position = SpawnPoint.position;
+        rgbd.linearVelocity = Vector2.zero;
     }
 }
