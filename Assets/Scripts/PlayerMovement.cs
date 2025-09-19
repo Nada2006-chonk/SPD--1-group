@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform LeftFoot, RightFoot;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform SpawnPoint;
+    [SerializeField] private HealthBar healthBar;
+
+
 
     private Rigidbody2D rgbd;
     private SpriteRenderer rend;
@@ -56,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
         //när spelet startar är spelaren på full hälsa och kan röra sig (neo)
         canMove = true;
         currentHealth = startingHealth;
+        UpdateHealthBar();
 
         rgbd = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
@@ -180,7 +184,9 @@ public class PlayerMovement : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         currentHealth -= damageAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, startingHealth);
         print(currentHealth);
+        UpdateHealthBar();
         if (currentHealth <= 0)
         {
             Respawn();
@@ -206,5 +212,13 @@ public class PlayerMovement : MonoBehaviour
         currentHealth = startingHealth;
         transform.position = SpawnPoint.position;
         rgbd.linearVelocity = Vector2.zero;
+        UpdateHealthBar();
+    }
+
+
+    private void UpdateHealthBar()
+    {
+        float healthPercent = (float)currentHealth / startingHealth;
+        healthBar.SetHealth(healthPercent);
     }
 }
