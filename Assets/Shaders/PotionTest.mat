@@ -60,10 +60,6 @@ Material:
     m_Floats:
     - _AmountOfLiquid: 0.274
     - _BubblesAmount: 0
-<<<<<<< HEAD
-=======
-    - _EmissiveStrength: 1.5
->>>>>>> Kalles-Branch
     - _LineDifference: -0.081
     - _LineOffset: 4.75
     - _QueueControl: 0
