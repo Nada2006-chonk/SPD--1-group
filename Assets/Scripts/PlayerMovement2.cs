@@ -101,10 +101,8 @@ public class PlayerMovement2 : MonoBehaviour
     //Skapar en funktion för Jump (Neo)
     private void Jump()
     {
-        rgbd.AddForce(new Vector2(0, jumpForce));
         ChangeAnimationState(PLAYER_JUMPSTART);
         jumpStarted = true;
-        //StartCoroutine och IEnumerator tillsammans kan skapa delay.
         StartCoroutine(DoJumpAfterDelay(0.1f));
     }
 

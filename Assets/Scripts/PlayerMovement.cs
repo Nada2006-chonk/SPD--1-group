@@ -23,7 +23,6 @@ public class PlayerMovement : MonoBehaviour
 
     //Animation States (Neo)
     const string Player_Jump = "Jump";
-    const string PLAYER_JUMPSTART = "PlayerJumpStart";
     const string Player_Attack_1 = "Attack1";
     const string Player_Run = "Run";
     const string Player_Hurt = "Hurt";
@@ -75,8 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
             }
         }
-        if (!jumpStarted)
-        {
+       
         if(rgbd.linearVelocity.y > 0 && isJumpPressed == true)
         {
             ChangeAnimationState(Player_Jump);
@@ -85,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         {
             ChangeAnimationState(Player_Fall);
         }
-        }
+        
 
     }
 
@@ -141,10 +139,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && CheckIfGrounded() == true)
         {
             Jump();
-            ChangeAnimationState(PLAYER_JUMPSTART);
-            jumpStarted = true;
-            //StartCoroutine och IEnumerator tillsammans kan skapa delay.
-            StartCoroutine(DoJumpAfterDelay(0.1f));
+            
         }
 
         //Checking for inputs (neo)
@@ -156,13 +151,5 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    private IEnumerator DoJumpAfterDelay(float delay)
-    {
-
-        yield return new WaitForSeconds(delay);
-
-        rgbd.AddForce(new Vector2(0, jumpForce));
-
-        jumpStarted = false;
-    }
+    
 }
