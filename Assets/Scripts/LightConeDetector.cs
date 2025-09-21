@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class LightConeDetector : MonoBehaviour
 {
-    [Header("Light Settings")]
-    public float lightRange = 5f; //samma value som light range i light sourcen
-    public float lightAngle = 45f; //sätt inner angle till samma och sen outer lite mer
-    public int rayCount = 15;          
-    public LayerMask obstructionMask;  
-    public LayerMask targetMask;       
 
-    [HideInInspector]
-    public bool playerInLight;
+    [SerializeField] private float lightRange = 5f; //samma value som light range i light sourcen
+    [SerializeField] private float lightAngle = 45f; //sätt inner angle till samma och sen outer lite mer
+    [SerializeField] private int rayCount = 15;
+    [SerializeField] private LayerMask obstructionMask;
+    [SerializeField] private LayerMask targetMask;
+
+
+    [HideInInspector] public bool playerInLight;
 
     private void Update()
     {
@@ -43,7 +43,6 @@ public class LightConeDetector : MonoBehaviour
                 
                 if (((1 << hit.collider.gameObject.layer) & obstructionMask) != 0)
                 {
-                    
                     continue;
                 }
 

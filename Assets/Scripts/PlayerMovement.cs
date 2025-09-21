@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform SpawnPoint;
     [SerializeField] private HealthBar healthBar;
 
+    [SerializeField] private LightConeDetector lightConeDetector;
+
 
 
     private Rigidbody2D rgbd;
@@ -153,6 +155,8 @@ public class PlayerMovement : MonoBehaviour
             FlipSprite(false);
         }
 
+        InLight();
+
         //Kallar funktionen jump + double jump (Neo)
         if (Input.GetButtonDown("Jump"))
         {
@@ -220,5 +224,14 @@ public class PlayerMovement : MonoBehaviour
     {
         float healthPercent = (float)currentHealth / startingHealth;
         healthBar.SetHealth(healthPercent);
+    }
+
+    private void InLight()
+    {
+        if (lightConeDetector != null && lightConeDetector.playerInLight)
+        {
+            TakeDamage(currentHealth);
+            Debug.Log("Player is in the light! Health set to 0");
+        }
     }
 }
