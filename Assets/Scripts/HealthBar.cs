@@ -17,11 +17,11 @@ public class HealthBar : MonoBehaviour
 
         if (image != null)
         {
-           
+
             materialInstance = Instantiate(image.material);
             image.material = materialInstance;
         }
-      
+
     }
     public void SetHealth(float healthPercent)
     {
