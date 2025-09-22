@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform LeftFoot, RightFoot;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform SpawnPoint;
+    [SerializeField] private HealthBar healthBar;
+
+
 
     private Rigidbody2D rgbd;
     private SpriteRenderer rend;
@@ -56,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
         //när spelet startar är spelaren på full hälsa och kan röra sig (neo)
         canMove = true;
         currentHealth = startingHealth;
+        UpdateHealthBar();
 
         rgbd = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
@@ -67,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         //avbryt rörelse om can move inte är aktiv (neo)
-        if(!canMove)
+        if (!canMove)
         {
             return;
         }
@@ -89,11 +93,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //jump animations (neo)
-        if(rgbd.linearVelocity.y > 0 && isJumpPressed == true)
+        if (rgbd.linearVelocity.y > 0 && isJumpPressed == true)
         {
             ChangeAnimationState(Player_Jump);
         }
-        if(rgbd.linearVelocity.y < 0 && !isGrounded && isJumpPressed == false)
+        if (rgbd.linearVelocity.y < 0 && !isGrounded && isJumpPressed == false)
         {
             ChangeAnimationState(Player_Fall);
         }
@@ -152,14 +156,14 @@ public class PlayerMovement : MonoBehaviour
         //Kallar funktionen jump + double jump (Neo)
         if (Input.GetButtonDown("Jump"))
         {
-            if(CheckIfGrounded() == true)
+            if (CheckIfGrounded() == true)
             {
                 canDoubleJump = true;
                 Jump();
             }
             else
             {
-                if(canDoubleJump)
+                if (canDoubleJump)
                 {
                     rgbd.AddForce(new Vector2(0, jumpForce));
                     canDoubleJump = false;
@@ -170,7 +174,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Checking for inputs (neo)
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             isJumpPressed = true;
         }
@@ -180,7 +184,9 @@ public class PlayerMovement : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         currentHealth -= damageAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, startingHealth);
         print(currentHealth);
+        UpdateHealthBar();
         if (currentHealth <= 0)
         {
             Respawn();
@@ -206,5 +212,13 @@ public class PlayerMovement : MonoBehaviour
         currentHealth = startingHealth;
         transform.position = SpawnPoint.position;
         rgbd.linearVelocity = Vector2.zero;
+        UpdateHealthBar();
+    }
+
+
+    private void UpdateHealthBar()
+    {
+        float healthPercent = (float)currentHealth / startingHealth;
+        healthBar.SetHealth(healthPercent);
     }
 }
