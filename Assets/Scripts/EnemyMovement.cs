@@ -21,24 +21,27 @@ public class EnemyMovement : MonoBehaviour
     private int startingHealth = 5;
     private int currentHealth = 0;
     private float lastAttackTime = 0f;
+    private float horizontalValue;
     private Vector2 moveDirection = Vector2.right;
 
     private Rigidbody2D rgbd;
     private SpriteRenderer rend;
+    private Animator animator;
 
 
     private void Start()
     {
-        //tilldela variabeln så att den åkallar funktionen SpriteRenderer (neo)
+        //tilldela variabeln så att den åkallar funktionerna (neo)
         rend = GetComponent<SpriteRenderer>();
         rgbd = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
 
         currentHealth = startingHealth;
 
     }
 
 
-    void FixedUpdate()
+/*    void FixedUpdate()
     {
 
         if (!canMove)
@@ -59,10 +62,24 @@ public class EnemyMovement : MonoBehaviour
         {
             rend.flipX = false;
         }
-    }
+    }*/
 
     void Update()
     {
+        animator.SetFloat("MoveSpeed", Mathf.Abs(rgbd.linearVelocity.x));
+
+        //detta är en if-sats för att se till att spriten flippas (neo)
+    /*    horizontalValue = Input.GetAxis("Horizontal");
+        if (horizontalValue < 0)
+        {
+            rend.flipX = true;
+        }
+
+        if (horizontalValue > 0)
+        {
+            rend.flipX = false;
+        }*/
+
         if (Target == null)
         {
             return;
@@ -111,6 +128,8 @@ public class EnemyMovement : MonoBehaviour
 
         Vector2 direction = (Target.position - transform.position).normalized;
         rgbd.linearVelocity = new Vector2(direction.x * MoveSpeed, rgbd.linearVelocity.y);
+        rend.flipX = Target.position.x < transform.position.x;
+
     }
 
     //Se till att fienden vänder sig vid enemybox (neo)
