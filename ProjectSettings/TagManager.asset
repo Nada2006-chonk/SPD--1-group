@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - EnemyBlock
   - Enemy
+  - Lava
+  - LavaBubble
   layers:
   - Default
   - TransparentFX
