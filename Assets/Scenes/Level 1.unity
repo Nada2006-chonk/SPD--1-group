@@ -2716,8 +2716,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.20839453, y: -0.18110985}
-  m_Size: {x: 0.71511364, y: 1.4711136}
+  m_Offset: {x: -0.03238249, y: -0.18110985}
+  m_Size: {x: 1.0671377, y: 1.4711136}
   m_Direction: 0
 --- !u!1 &344423681
 GameObject:
