@@ -2532,10 +2532,10 @@ GameObject:
   m_Component:
   - component: {fileID: 342572266}
   - component: {fileID: 342572265}
-  - component: {fileID: 342572267}
   - component: {fileID: 342572268}
   - component: {fileID: 342572269}
   - component: {fileID: 342572270}
+  - component: {fileID: 342572271}
   m_Layer: 8
   m_Name: Skeleton
   m_TagString: Enemy
@@ -2613,26 +2613,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &342572267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 342572264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 009aa16465beb4ae886ab44a365d6bdb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 2
-  knockbackForce: 200
-  upwardsForce: 100
-  damageGiven: 1
-  Target: {fileID: 171991299}
-  visionRange: 5
-  attackRange: 0.7
-  cooldown: 1
 --- !u!95 &342572268
 Animator:
   serializedVersion: 7
@@ -2716,9 +2696,28 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.20839453, y: -0.18110985}
-  m_Size: {x: 0.71511364, y: 1.4711136}
+  m_Offset: {x: -0.052239418, y: -0.18110985}
+  m_Size: {x: 1.0274239, y: 1.4711136}
   m_Direction: 0
+--- !u!114 &342572271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342572264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584f2ee53b9fd40ae8b62bcf91bf8918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 2
+  knockbackForce: 200
+  upwardsForce: 100
+  damageGiven: 1
+  Target: {fileID: 171991299}
+  visionRange: 5
+  attackRange: 1
 --- !u!1 &344423681
 GameObject:
   m_ObjectHideFlags: 0
