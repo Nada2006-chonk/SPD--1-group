@@ -2716,7 +2716,7 @@ MonoBehaviour:
   upwardsForce: 100
   damageGiven: 1
   Target: {fileID: 171991299}
-  visionRange: 5
+  visionRange: 4
   attackRange: 1
 --- !u!1 &344423681
 GameObject:
