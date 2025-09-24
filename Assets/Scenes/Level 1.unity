@@ -1664,7 +1664,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1.3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8cc356866cac64a06a4d682406985353, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1768,6 +1768,7 @@ MonoBehaviour:
     m_Bits: 64
   SpawnPoint: {fileID: 691510783}
   healthBar: {fileID: 1567270073}
+  lightConeDetector: {fileID: 0}
 --- !u!95 &171991301
 Animator:
   serializedVersion: 7
