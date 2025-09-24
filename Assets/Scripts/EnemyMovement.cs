@@ -40,81 +40,44 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
-
-/*    void FixedUpdate()
-    {
-
-        if (!canMove)
-        {
-            return;
-        }
-   
-        //detta är rörelse (neo)
-        transform.Translate(moveDirection * MoveSpeed * Time.deltaTime);
-
-        //detta är en if-sats för att se till att spriten flippas (neo)
-        if (moveDirection.x < 0)
-        {
-            rend.flipX = true;
-        }
-
-        if (moveDirection.x > 0)
-        {
-            rend.flipX = false;
-        }
-    }*/
-
     void Update()
     {
         animator.SetFloat("MoveSpeed", Mathf.Abs(rgbd.linearVelocity.x));
-
-        //detta är en if-sats för att se till att spriten flippas (neo)
-    /*    horizontalValue = Input.GetAxis("Horizontal");
-        if (horizontalValue < 0)
-        {
-            rend.flipX = true;
-        }
-
-        if (horizontalValue > 0)
-        {
-            rend.flipX = false;
-        }*/
 
         if (Target == null)
         {
             return;
         }
+
+        float distanceToPlayer = Vector2.Distance(transform.position, Target.position);
+
+
+        if (distanceToPlayer <= visionRange && distanceToPlayer > attackRange)
+        {
+            ChasePlayer();
+        }
+        else if (distanceToPlayer <= attackRange)
+        {
+            isChasing = false;
+            isAttacking = true;
+
+            if (Time.time - lastAttackTime > cooldown)
+            {
+                lastAttackTime = Time.time;
+            }
+        }
         else
         {
-            float distanceToPlayer = Vector2.Distance(transform.position, Target.position);
+            isChasing = false;
+            isAttacking = false;
 
-            // Kolla om fienden ska jaga spelaren
-            if (distanceToPlayer <= visionRange && distanceToPlayer > attackRange)
+            // Trigga attack om spelaren är nära och cooldown har gått
+            if (distanceToPlayer <= attackRange && Time.time - lastAttackTime > cooldown)
             {
-                ChasePlayer();
-            }
-            else if (distanceToPlayer <= attackRange)
-            {
-                isChasing = false;
-                isAttacking = true;
+                lastAttackTime = Time.time;
 
-                if (Time.time - lastAttackTime > cooldown)
-                {
-                    lastAttackTime = Time.time;
-                }
             }
-            else
-            {
-                isChasing = false;
-                isAttacking = false;
 
-                // Trigga attack om spelaren är nära och cooldown har gått
-                if (distanceToPlayer <= attackRange && Time.time - lastAttackTime > cooldown)
-                {
-                    lastAttackTime = Time.time;
-
-                }
-            }
         }
 
 
