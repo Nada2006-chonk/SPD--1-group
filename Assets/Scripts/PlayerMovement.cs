@@ -189,7 +189,6 @@ public class PlayerMovement : MonoBehaviour
     {
         currentHealth -= damageAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, startingHealth);
-        print(currentHealth);
         UpdateHealthBar();
         if (currentHealth <= 0)
         {

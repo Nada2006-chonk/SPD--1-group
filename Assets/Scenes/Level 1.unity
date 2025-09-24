@@ -2631,7 +2631,7 @@ MonoBehaviour:
   damageGiven: 1
   Target: {fileID: 171991299}
   visionRange: 5
-  attackRange: 1
+  attackRange: 0.7
   cooldown: 1
 --- !u!95 &342572268
 Animator:

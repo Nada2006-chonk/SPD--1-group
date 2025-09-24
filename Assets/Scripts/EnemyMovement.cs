@@ -11,7 +11,6 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private Transform Target;
     [SerializeField] private float visionRange = 4f; //när ser fienden spelaren
     [SerializeField] private float attackRange = 1.0f; //när ska fienden attackera spelaren
-    [SerializeField] private float cooldown = 1.0f; //attack cooldown
 
 
 
@@ -51,33 +50,19 @@ public class EnemyMovement : MonoBehaviour
 
         float distanceToPlayer = Vector2.Distance(transform.position, Target.position);
 
-
         if (distanceToPlayer <= visionRange && distanceToPlayer > attackRange)
         {
             ChasePlayer();
         }
         else if (distanceToPlayer <= attackRange)
         {
-            isChasing = false;
-            isAttacking = true;
-
-            if (Time.time - lastAttackTime > cooldown)
-            {
-                lastAttackTime = Time.time;
-            }
+            rgbd.linearVelocity = Vector2.zero;
+            AttackPlayer();
         }
         else
         {
             isChasing = false;
             isAttacking = false;
-
-            // Trigga attack om spelaren är nära och cooldown har gått
-            if (distanceToPlayer <= attackRange && Time.time - lastAttackTime > cooldown)
-            {
-                lastAttackTime = Time.time;
-
-            }
-
         }
 
 
@@ -93,6 +78,13 @@ public class EnemyMovement : MonoBehaviour
         rgbd.linearVelocity = new Vector2(direction.x * MoveSpeed, rgbd.linearVelocity.y);
         rend.flipX = Target.position.x < transform.position.x;
 
+    }
+    //funktion för att få fienden att attackera (neo)
+    private void AttackPlayer()
+    {
+        isChasing = false;
+        isAttacking = true;
+            animator.SetTrigger("DoAttack");
     }
 
     //Se till att fienden vänder sig vid enemybox (neo)
