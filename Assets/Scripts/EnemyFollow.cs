@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using static UnityEngine.GraphicsBuffer;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyFollow : MonoBehaviour
 {
     [SerializeField] private float MoveSpeed = 2.0f;
     [SerializeField] private float knockbackForce = 200f;
@@ -84,7 +84,7 @@ public class EnemyMovement : MonoBehaviour
     {
         isChasing = false;
         isAttacking = true;
-            animator.SetTrigger("DoAttack");
+        animator.SetTrigger("DoAttack");
     }
 
     //Se till att fienden vänder sig vid enemybox (neo)
