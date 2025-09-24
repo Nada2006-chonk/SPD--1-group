@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rgbd;
     private SpriteRenderer rend;
     private Animator animator;
+    private Coroutine lavaDamageCoroutine;
 
     private float horizontalValue;
     private float rayDistance = 0.25f;
@@ -29,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canMove;
     private int startingHealth = 5;
     private int currentHealth = 0;
+    private bool inLava = false;
 
 
     //Animation States (Neo)
@@ -233,5 +237,52 @@ public class PlayerMovement : MonoBehaviour
             TakeDamage(currentHealth);
             Debug.Log("Player is in the light! Health set to 0");
         }
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Lava"))
+        {
+            inLava = true;
+            rgbd.gravityScale = 0.5f;
+            rgbd.linearDamping = 5f;
+            rgbd.linearVelocity = rgbd.linearVelocity * 0.2f;
+
+            if (lavaDamageCoroutine == null)
+            {
+                lavaDamageCoroutine = StartCoroutine(TakeLavaDamage());
+            }
+        }
+    }
+
+
+
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Lava"))
+        {
+            inLava = false;
+            rgbd.gravityScale = 1f;
+            rgbd.linearDamping = 0f;
+            if (lavaDamageCoroutine != null)
+            {
+                StopCoroutine(lavaDamageCoroutine);
+                lavaDamageCoroutine = null;
+            }
+        }
+    }
+
+
+    private IEnumerator TakeLavaDamage()
+    {
+        while (inLava)
+        {
+            TakeDamage(1);
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        lavaDamageCoroutine = null;
     }
 }
