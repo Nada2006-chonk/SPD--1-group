@@ -8,7 +8,6 @@ public class PlayerMovement : MonoBehaviour
 {
     //neo
     [SerializeField] private float moveSpeed = 1f;
-    [SerializeField] private float jumpForce = 300f;
     [SerializeField] private float attackDelay = 0.5f;
     [SerializeField] private float cooldown = 2f;
     [SerializeField] private Transform LeftFoot, RightFoot;
@@ -19,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LightConeDetector lightConeDetector;
     [SerializeField] private float attackRange = 1;
     [SerializeField] private float knockbackForce = 200f;
+
+    [SerializeField] private float jumpVelocity = 10f;
 
 
 
@@ -155,9 +156,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Skapar en funktion för Jump (Neo)
-    private void Jump()
-    {
-        rgbd.AddForce(new Vector2(0, jumpForce));
+    private void Jump(bool isDouble = false)
+    {   
+        rgbd.linearVelocity = new Vector2(rgbd.linearVelocity.x, 0f);
+        rgbd.linearVelocity = new Vector2(rgbd.linearVelocity.x, jumpVelocity);
+        if (isDouble)
+            canDoubleJump = false;
     }
 
     //check if ground (Neo)
@@ -191,24 +195,18 @@ public class PlayerMovement : MonoBehaviour
         //Kallar funktionen jump + double jump (Neo)
         if (Input.GetButtonDown("Jump"))
         {
-            if (CheckIfGrounded() == true)
+            if (CheckIfGrounded())
             {
                 canDoubleJump = true;
                 Jump();
             }
-            else
+            else if (canDoubleJump)
             {
-                if (canDoubleJump)
-                {
-                    rgbd.AddForce(new Vector2(0, jumpForce));
-                    canDoubleJump = false;
-
-                }
+                Jump(isDouble: true);
             }
-
         }
         //se till att timern för cooldown räknar ned (neo)
-        if(timer > 0)
+        if (timer > 0)
         {
             timer -= Time.deltaTime;
         }

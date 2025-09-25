@@ -4944,7 +4944,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 250
-  jumpForce: 350
   attackDelay: 0.5
   cooldown: 1
   LeftFoot: {fileID: 2059137504}
@@ -4958,6 +4957,7 @@ MonoBehaviour:
   lightConeDetector: {fileID: 0}
   attackRange: 1
   knockbackForce: 10
+  jumpVelocity: 8
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
