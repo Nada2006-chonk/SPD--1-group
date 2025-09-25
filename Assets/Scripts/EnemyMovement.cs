@@ -3,13 +3,14 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float MoveSpeed = 2.0f;
-    [SerializeField] private float bounciness = 100;
     [SerializeField] private float knockbackForce = 200f;
     [SerializeField] private float upwardsForce = 100f;
     [SerializeField] private int damageGiven = 1;
 
+
     private bool canMove = true;
     private AudioSource audioSource;
+
 
 
     //skapa en variabel
@@ -75,7 +76,6 @@ public class EnemyMovement : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(other.GetComponent<Rigidbody2D>().linearVelocity.x, 0);
-            other.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, bounciness));
             GetComponent<Animator>().SetTrigger("Dead");
             GetComponent<BoxCollider2D>().enabled = false;
             GetComponent<CapsuleCollider2D>().enabled = false;

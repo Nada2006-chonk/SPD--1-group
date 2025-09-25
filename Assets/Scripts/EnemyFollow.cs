@@ -17,9 +17,6 @@ public class EnemyFollow : MonoBehaviour
     private bool canMove = true;
     private bool isChasing = false;
     private bool isAttacking = false;
-    private int startingHealth = 5;
-    private int currentHealth = 0;
-    private float lastAttackTime = 0f;
     private float horizontalValue;
     private Vector2 moveDirection = Vector2.right;
 
@@ -34,9 +31,6 @@ public class EnemyFollow : MonoBehaviour
         rend = GetComponent<SpriteRenderer>();
         rgbd = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
-        currentHealth = startingHealth;
-
     }
 
     void Update()
@@ -47,6 +41,8 @@ public class EnemyFollow : MonoBehaviour
         {
             return;
         }
+
+        if (!canMove) return;
 
         float distanceToPlayer = Vector2.Distance(transform.position, Target.position);
 

@@ -10,22 +10,25 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float jumpForce = 300f;
     [SerializeField] private float attackDelay = 0.5f;
+    [SerializeField] private float cooldown = 2f;
     [SerializeField] private Transform LeftFoot, RightFoot;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform SpawnPoint;
+    [SerializeField] private Transform attackPoint;
     [SerializeField] private HealthBar healthBar;
-
     [SerializeField] private LightConeDetector lightConeDetector;
+    [SerializeField] private float attackRange = 1;
 
 
     //neo
+    public LayerMask enemyLayer;
     private Rigidbody2D rgbd;
     private SpriteRenderer rend;
     private Animator animator;
     private Coroutine lavaDamageCoroutine;
-
     private float horizontalValue;
     private float rayDistance = 0.25f;
+    private float timer;
     private string currentState;
     private bool isGrounded;
     private bool isJumpPressed;
@@ -33,9 +36,10 @@ public class PlayerMovement : MonoBehaviour
     private bool canMove;
     private bool isAttacking;
     private bool isAttackPressed;
+    private bool inLava = false;
     private int startingHealth = 5;
     private int currentHealth = 0;
-    private bool inLava = false;
+    private int damage = 1;
 
 
     //Animation States (Neo)
@@ -161,7 +165,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-
     void Update()
     {
         //flip sprite (Neo)
@@ -176,8 +179,6 @@ public class PlayerMovement : MonoBehaviour
         {
             FlipSprite(false);
         }
-
-        InLight();
 
         //kallar funktionen attack (neo)
         if(Input.GetKeyDown(KeyCode.K))
@@ -204,6 +205,13 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+        //se till att timern för cooldown räknar ned (neo)
+        if(timer > 0)
+        {
+            timer -= Time.deltaTime;
+        }
+
+        InLight();
 
         //Checking for inputs (neo)
         if (Input.GetKeyDown(KeyCode.Space))
@@ -219,8 +227,25 @@ public class PlayerMovement : MonoBehaviour
     //Spelare attackerar (neo)
     public void Attack()
     {
-        isAttacking = true;
+        if(timer <= 0)
+        {
+            isAttacking = true;
+            timer = cooldown;
+
+        }
     }
+
+    //gör damage. Denna funktion kallas på i Attack Animation1 i Unity (neo)
+    public void DealDamage()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+
+        if (enemies.Length > 0)
+        {
+            enemies[0].GetComponent<EnemyHealth>().ChangeHealth(-damage);
+        }
+    }
+    //Attacken klar (neo)
     private void AttackComplete()
     {
         isAttacking = false;
@@ -293,8 +318,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-
 
     //Kalle
     private void OnTriggerExit2D(Collider2D other)
