@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private LightConeDetector lightConeDetector;
     [SerializeField] private float attackRange = 1;
+    [SerializeField] private float knockbackForce = 200f;
+
 
 
     //neo
@@ -243,6 +245,7 @@ public class PlayerMovement : MonoBehaviour
         if (enemies.Length > 0)
         {
             enemies[0].GetComponent<EnemyHealth>().ChangeHealth(-damage);
+            enemies[0].GetComponent<EnemyKnockback>().Knockback(transform, knockbackForce);
         }
     }
     //Attacken klar (neo)

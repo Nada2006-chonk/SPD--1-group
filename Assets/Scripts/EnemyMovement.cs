@@ -54,7 +54,7 @@ public class EnemyMovement : MonoBehaviour
             MoveSpeed = -MoveSpeed;
         }
 
-
+        //fienden ger playern damage och knockback on collision (neo)
         if (other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponent<PlayerMovement>().TakeDamage(damageGiven);
@@ -70,19 +70,4 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    // Fiendens kill trigger
-/*    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            other.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(other.GetComponent<Rigidbody2D>().linearVelocity.x, 0);
-            GetComponent<Animator>().SetTrigger("Dead");
-            GetComponent<BoxCollider2D>().enabled = false;
-            GetComponent<CapsuleCollider2D>().enabled = false;
-            GetComponent<Rigidbody2D>().gravityScale = 0;
-            GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
-            canMove = false;
-            Destroy(gameObject, 0.5f);
-        }
-    }*/
 }
