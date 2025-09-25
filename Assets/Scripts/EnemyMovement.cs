@@ -70,13 +70,13 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // Fiendens kill trigger
-    private void OnTriggerEnter2D(Collider2D other)
+/*    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(other.GetComponent<Rigidbody2D>().linearVelocity.x, 0);
             other.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, bounciness));
-            GetComponent<Animator>().SetTrigger("Hit");
+            GetComponent<Animator>().SetTrigger("Dead");
             GetComponent<BoxCollider2D>().enabled = false;
             GetComponent<CapsuleCollider2D>().enabled = false;
             GetComponent<Rigidbody2D>().gravityScale = 0;
@@ -84,5 +84,5 @@ public class EnemyMovement : MonoBehaviour
             canMove = false;
             Destroy(gameObject, 0.5f);
         }
-    }
+    }*/
 }
