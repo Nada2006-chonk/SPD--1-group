@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     private int startingHealth = 5;
     private int currentHealth = 0;
     private int damage = 1;
+    private int facingDirection = 1;
 
 
     //Animation States (Neo)
@@ -82,7 +83,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    //Spelaren kan gå (Neo)
     private void FixedUpdate()
     {
         //avbryt rörelse om can move inte är aktiv (neo)
@@ -91,8 +91,20 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        //spelaren kan gå (neo)
         rgbd.linearVelocity = new Vector2(horizontalValue * moveSpeed * Time.deltaTime, rgbd.linearVelocity.y);
 
+        //flip sprite
+        horizontalValue = Input.GetAxis("Horizontal");
+
+        if(horizontalValue > 0 && transform.localScale.x < 0)
+        {
+            FlipSprite();
+        }
+        else if (horizontalValue < 0 && transform.localScale.x > 0)
+        {
+            FlipSprite();
+        }
         //Axis checker, animator (Neo)
         if (CheckIfGrounded() == true && isAttacking == false)
         {
@@ -135,10 +147,11 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    //För att spriten ska vända sig (Neo)
-    private void FlipSprite(bool direction)
+    //Flip sprite (neo)
+    private void FlipSprite()
     {
-        rend.flipX = direction;
+        facingDirection *= -1;
+        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
     //Skapar en funktion för Jump (Neo)
@@ -169,19 +182,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        //flip sprite (Neo)
-        horizontalValue = Input.GetAxis("Horizontal");
-
-        if (horizontalValue < 0)
-        {
-            FlipSprite(true);
-        }
-
-        if (horizontalValue > 0)
-        {
-            FlipSprite(false);
-        }
-
         //kallar funktionen attack (neo)
         if(Input.GetKeyDown(KeyCode.K))
         {
