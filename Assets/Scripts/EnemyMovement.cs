@@ -1,101 +1,59 @@
 using UnityEngine;
-using UnityEngine.Audio;
-using static UnityEngine.GraphicsBuffer;
 
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private float MoveSpeed = 2.0f;
+    [SerializeField] private float bounciness = 100;
     [SerializeField] private float knockbackForce = 200f;
     [SerializeField] private float upwardsForce = 100f;
     [SerializeField] private int damageGiven = 1;
-    [SerializeField] private Transform Target;
-    [SerializeField] private float visionRange = 4f; //när ser fienden spelaren
-    [SerializeField] private float attackRange = 1.0f; //när ska fienden attackera spelaren
-
-
 
     private bool canMove = true;
-    private bool isChasing = false;
-    private bool isAttacking = false;
-    private int startingHealth = 5;
-    private int currentHealth = 0;
-    private float lastAttackTime = 0f;
-    private float horizontalValue;
-    private Vector2 moveDirection = Vector2.right;
+    private AudioSource audioSource;
 
-    private Rigidbody2D rgbd;
+
+    //skapa en variabel
     private SpriteRenderer rend;
-    private Animator animator;
-
 
     private void Start()
     {
-        //tilldela variabeln så att den åkallar funktionerna (neo)
+        //tilldela variabeln så att den åkallar funktionen SpriteRenderer
         rend = GetComponent<SpriteRenderer>();
-        rgbd = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-
-        currentHealth = startingHealth;
+        audioSource = GetComponent<AudioSource>();
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        animator.SetFloat("MoveSpeed", Mathf.Abs(rgbd.linearVelocity.x));
 
-        if (Target == null)
+        if (!canMove)
         {
             return;
         }
 
-        float distanceToPlayer = Vector2.Distance(transform.position, Target.position);
+        //detta är rörelse
+        transform.Translate(new Vector2(MoveSpeed, 0) * Time.deltaTime);
 
-        if (distanceToPlayer <= visionRange && distanceToPlayer > attackRange)
+        //detta är en if-sats för att se till att spriten flippas
+        if (MoveSpeed < 0)
         {
-            ChasePlayer();
-        }
-        else if (distanceToPlayer <= attackRange)
-        {
-            rgbd.linearVelocity = Vector2.zero;
-            AttackPlayer();
-        }
-        else
-        {
-            isChasing = false;
-            isAttacking = false;
+            rend.flipX = true;
         }
 
-
+        if (MoveSpeed > 0)
+        {
+            rend.flipX = false;
+        }
     }
-
-    //Funktion för att få fienden att jaga spelaren (neo)
-    private void ChasePlayer()
-    {
-        isChasing = true;
-        isAttacking = false;
-
-        Vector2 direction = (Target.position - transform.position).normalized;
-        rgbd.linearVelocity = new Vector2(direction.x * MoveSpeed, rgbd.linearVelocity.y);
-        rend.flipX = Target.position.x < transform.position.x;
-
-    }
-    //funktion för att få fienden att attackera (neo)
-    private void AttackPlayer()
-    {
-        isChasing = false;
-        isAttacking = true;
-            animator.SetTrigger("DoAttack");
-    }
-
-    //Se till att fienden vänder sig vid enemybox (neo)
+    //Se till att fienden vänder sig vid enemybox
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("EnemyBlock"))
         {
-            moveDirection = -moveDirection;
+            MoveSpeed = -MoveSpeed;
         }
 
-        //fienden ger playern damage och knockback on collision (neo)
+
         if (other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponent<PlayerMovement>().TakeDamage(damageGiven);
@@ -108,6 +66,23 @@ public class EnemyMovement : MonoBehaviour
             {
                 other.gameObject.GetComponent<PlayerMovement>().TakeKnockback(-knockbackForce, upwardsForce);
             }
+        }
+    }
+
+    // Fiendens kill trigger
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(other.GetComponent<Rigidbody2D>().linearVelocity.x, 0);
+            other.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, bounciness));
+            GetComponent<Animator>().SetTrigger("Hit");
+            GetComponent<BoxCollider2D>().enabled = false;
+            GetComponent<CapsuleCollider2D>().enabled = false;
+            GetComponent<Rigidbody2D>().gravityScale = 0;
+            GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+            canMove = false;
+            Destroy(gameObject, 0.5f);
         }
     }
 }
