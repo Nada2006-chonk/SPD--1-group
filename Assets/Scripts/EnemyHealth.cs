@@ -6,10 +6,12 @@ public class EnemyHealth : MonoBehaviour
 
     public int currentHealth;
     public int startingHealth;
+    private Animator anim;
 
     void Start()
     {
         currentHealth = startingHealth;
+        anim = GetComponent<Animator>();
     }
 
     public void ChangeHealth(int amount)
@@ -23,7 +25,8 @@ public class EnemyHealth : MonoBehaviour
 
         else if (currentHealth <= 0)
         {
-            Destroy(gameObject, 0.5f);
+            anim.SetTrigger("Dead");
+            Destroy(gameObject, 1f);
         }
     }
 }
