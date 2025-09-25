@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //jump animations (neo)
-        if (rgbd.linearVelocity.y > 0 && isJumpPressed == true)
+        if (rgbd.linearVelocity.y > 0 && isJumpPressed == true && CheckIfGrounded() == false)
         {
             ChangeAnimationState(Player_Jump);
         }
@@ -231,7 +231,6 @@ public class PlayerMovement : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         currentHealth -= damageAmount;
-//        ChangeAnimationState(Player_Hurt);
         currentHealth = Mathf.Clamp(currentHealth, 0, startingHealth);
         UpdateHealthBar();
         if (currentHealth <= 0)
