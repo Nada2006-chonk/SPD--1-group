@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Lava
   - LavaBubble
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX

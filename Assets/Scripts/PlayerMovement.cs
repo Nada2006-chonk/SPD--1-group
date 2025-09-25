@@ -261,9 +261,10 @@ public class PlayerMovement : MonoBehaviour
         currentHealth -= damageAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, startingHealth);
         UpdateHealthBar();
+
         if (currentHealth <= 0)
         {
-            Respawn();
+            GameManager.Instance.HandlePlayerDeath(gameObject);
         }
     }
 
@@ -348,5 +349,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         lavaDamageCoroutine = null;
+    }
+
+    public void ResetHealth()
+    {
+        currentHealth = startingHealth;
+        UpdateHealthBar();
     }
 }
