@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         rgbd.linearVelocity = new Vector2(horizontalValue * moveSpeed * Time.deltaTime, rgbd.linearVelocity.y);
 
         //Axis checker, animator (Neo)
-        if (CheckIfGrounded() == true && !isAttacking)
+        if (CheckIfGrounded() == true && isAttacking == false)
         {
             if (horizontalValue != 0)
             {
