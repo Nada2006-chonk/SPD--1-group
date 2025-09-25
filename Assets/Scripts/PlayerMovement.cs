@@ -45,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
     private int damage = 1;
     private int facingDirection = 1;
 
+    private bool isDying = false;
+    private bool killedByLight = false;
 
     //Animation States (Neo)
     const string Player_Jump = "Jump";
@@ -52,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     const string Player_Run = "Run";
     const string Player_Hurt = "Player_Hurt";
     const string Player_Dead = "Dead";
+
     const string Player_Idle = "Idle";
     const string Player_Fall = "Fall";
 
@@ -254,15 +257,17 @@ public class PlayerMovement : MonoBehaviour
 
 
     //spelare ta skada (neo)
-    public void TakeDamage(int damageAmount)
+    public void TakeDamage(int damageAmount, bool fromLight = false)
     {
+        if (currentHealth <= 0) return;
+
         currentHealth -= damageAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, startingHealth);
         UpdateHealthBar();
 
         if (currentHealth <= 0)
         {
-            GameManager.Instance.HandlePlayerDeath(gameObject);
+            GameManager.Instance.HandlePlayerDeath(gameObject, killedByLight: false);
         }
     }
 
@@ -297,10 +302,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void InLight()
     {
-        if (lightConeDetector != null && lightConeDetector.playerInLight)
+        if (lightConeDetector != null && lightConeDetector.playerInLight && !isDying)
         {
-            TakeDamage(currentHealth);
-            Debug.Log("Player is in the light! Health set to 0");
+            isDying = true; 
+            GameManager.Instance.HandlePlayerDeath(gameObject, killedByLight: true);
         }
     }
 
@@ -353,5 +358,48 @@ public class PlayerMovement : MonoBehaviour
     {
         currentHealth = startingHealth;
         UpdateHealthBar();
+    }
+
+
+    public IEnumerator HandleDeath()
+    {
+        canMove = false;
+        rgbd.linearVelocity = Vector2.zero;
+
+        ChangeAnimationState(Player_Dead);
+
+        
+        float deathAnimLength = 1f;
+        foreach (var clip in animator.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == Player_Dead)
+            {
+                deathAnimLength = clip.length;
+                break;
+            }
+        }
+
+        yield return new WaitForSeconds(deathAnimLength);
+
+        Respawn();
+        canMove = true;
+        isDying = false;
+    }
+
+
+    public bool CanMove
+    {
+        get => canMove;
+        set => canMove = value;
+    }
+
+    public void ResetVelocity()
+    {
+        rgbd.linearVelocity = Vector2.zero;
+    }
+
+    public void PlayDeathAnimation()
+    {
+        ChangeAnimationState("Dead");
     }
 }

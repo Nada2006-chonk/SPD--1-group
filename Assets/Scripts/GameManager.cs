@@ -6,11 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-   
     [SerializeField] private bool reloadSceneOnDeath = false;
 
     private Vector3 respawnPoint;
-//ser till att endast en gamemanager finns och att den inte destroyas när man resettar scenen
+    //ser till att endast en gamemanager finns och att den inte destroyas när man resettar scenen
     void Awake()
     {
         if (Instance == null)
@@ -24,6 +23,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+   //hämtar transform från checkpoint script och sätter respawnPoint
     public void SetCheckpoint(Vector3 pos)
     {
         respawnPoint = pos;
@@ -34,23 +34,41 @@ public class GameManager : MonoBehaviour
         if (respawnPoint == Vector3.zero)
         {
             GameObject defaultSpawn = GameObject.FindWithTag("SpawnPoint");
-            if (defaultSpawn != null) return defaultSpawn.transform.position;
+            if (defaultSpawn != null)
+                return defaultSpawn.transform.position;
         }
         return respawnPoint;
     }
 
-    public void HandlePlayerDeath(GameObject player)
+    
+    public void HandlePlayerDeath(GameObject player, bool killedByLight)
     {
-        if (reloadSceneOnDeath)
+        //dör av ljus och reload scene är på
+        if (reloadSceneOnDeath && killedByLight)
+        {
+            StartCoroutine(ReloadAfterDeathAnim(player));
+        }
+        //dör inte av ljus och reload scene är på
+        else if (reloadSceneOnDeath)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             StartCoroutine(RespawnAfterReload());
         }
+        //dör av antingen ljus eller inte ljus men reload scene är av
         else
         {
-            RespawnPlayer(player);
+            PlayerMovement pm = player.GetComponent<PlayerMovement>();
+            if (pm != null)
+            {
+                if (killedByLight)
+                    pm.StartCoroutine(pm.HandleDeath());
+                else
+                    RespawnPlayer(player);
+            }
         }
     }
+
+    
 
     private void RespawnPlayer(GameObject player)
     {
@@ -58,8 +76,8 @@ public class GameManager : MonoBehaviour
         if (pm != null)
         {
             pm.ResetHealth();
+            pm.ResetVelocity();
             player.transform.position = GetRespawnPoint();
-            player.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
         }
     }
 
@@ -69,5 +87,17 @@ public class GameManager : MonoBehaviour
         GameObject player = GameObject.FindWithTag("Player");
         if (player != null)
             player.transform.position = GetRespawnPoint();
+        
+    }
+
+    private IEnumerator ReloadAfterDeathAnim(GameObject player)
+    {
+        PlayerMovement pm = player.GetComponent<PlayerMovement>();
+        if (pm != null)
+        {
+            yield return pm.StartCoroutine(pm.HandleDeath());
+        }
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

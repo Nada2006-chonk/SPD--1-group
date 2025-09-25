@@ -8,6 +8,7 @@ public class LightConeDetector : MonoBehaviour
     [SerializeField] private int rayCount = 15;
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] private LayerMask targetMask;
+    private bool isDying = false;
 
 
     [HideInInspector] public bool playerInLight;
@@ -44,23 +45,15 @@ public class LightConeDetector : MonoBehaviour
                 if (((1 << hit.collider.gameObject.layer) & obstructionMask) != 0)
                 {
                     continue;
-                }
-
-                
+                }             
                 if (((1 << hit.collider.gameObject.layer) & targetMask) != 0)
                 {
                     playerInLight = true;
                     break;
                 }
-            }
-
-            
+            } 
             Debug.DrawRay(origin, dir * lightRange, playerInLight ? Color.green : Color.yellow);
         }
-
-
     }
-
-    
 
 }
