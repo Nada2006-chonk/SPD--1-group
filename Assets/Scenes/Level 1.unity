@@ -4712,8 +4712,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.06757274, y: -0.02079165}
-  m_Size: {x: 0.5003337, y: 1.5207498}
+  m_Offset: {x: 0.06757274, y: 0.71546805}
+  m_Size: {x: 0.5003337, y: 1.5628216}
   m_Direction: 0
 --- !u!50 &171991297
 Rigidbody2D:
@@ -4828,6 +4828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 250
   jumpForce: 350
+  attackDelay: 0.5
   LeftFoot: {fileID: 2059137504}
   RightFoot: {fileID: 527580935}
   whatIsGround:

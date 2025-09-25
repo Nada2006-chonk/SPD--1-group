@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     //neo
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float jumpForce = 300f;
+    [SerializeField] private float attackDelay = 0.5f;
     [SerializeField] private Transform LeftFoot, RightFoot;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private Transform SpawnPoint;
@@ -17,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LightConeDetector lightConeDetector;
 
 
-
+    //neo
     private Rigidbody2D rgbd;
     private SpriteRenderer rend;
     private Animator animator;
@@ -30,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumpPressed;
     private bool canDoubleJump;
     private bool canMove;
+    private bool isAttacking;
+    private bool isAttackPressed;
     private int startingHealth = 5;
     private int currentHealth = 0;
     private bool inLava = false;
@@ -39,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     const string Player_Jump = "Jump";
     const string Player_Attack_1 = "Attack1";
     const string Player_Run = "Run";
-    const string Player_Hurt = "Hurt";
+    const string Player_Hurt = "Player_Hurt";
     const string Player_Dead = "Dead";
     const string Player_Idle = "Idle";
     const string Player_Fall = "Fall";
@@ -85,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         rgbd.linearVelocity = new Vector2(horizontalValue * moveSpeed * Time.deltaTime, rgbd.linearVelocity.y);
 
         //Axis checker, animator (Neo)
-        if (CheckIfGrounded() == true)
+        if (CheckIfGrounded() == true && !isAttacking)
         {
             if (horizontalValue != 0)
             {
@@ -106,6 +109,21 @@ public class PlayerMovement : MonoBehaviour
         if (rgbd.linearVelocity.y < 0 && !isGrounded && isJumpPressed == false)
         {
             ChangeAnimationState(Player_Fall);
+        }
+
+        //attack animations (neo)
+        if(isAttackPressed == true)
+        {
+            isAttackPressed = false;
+
+            if(isAttacking == true)
+            {
+                isAttacking = true;
+                ChangeAnimationState(Player_Attack_1);
+            }
+
+            attackDelay = animator.GetCurrentAnimatorStateInfo(0).length;
+            Invoke("AttackComplete", attackDelay);
         }
 
 
@@ -161,6 +179,12 @@ public class PlayerMovement : MonoBehaviour
 
         InLight();
 
+        //kallar funktionen attack (neo)
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            Attack();
+        }
+
         //Kallar funktionen jump + double jump (Neo)
         if (Input.GetButtonDown("Jump"))
         {
@@ -186,12 +210,28 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumpPressed = true;
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            isAttackPressed = true;
+        }
     }
+
+    //Spelare attackerar (neo)
+    public void Attack()
+    {
+        isAttacking = true;
+    }
+    private void AttackComplete()
+    {
+        isAttacking = false;
+    }
+
 
     //spelare ta skada (neo)
     public void TakeDamage(int damageAmount)
     {
         currentHealth -= damageAmount;
+//        ChangeAnimationState(Player_Hurt);
         currentHealth = Mathf.Clamp(currentHealth, 0, startingHealth);
         UpdateHealthBar();
         if (currentHealth <= 0)
@@ -200,7 +240,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //spelare ta knockback (neo)
+    //spelaren tar knockback (neo)
     public void TakeKnockback(float knockbackForce, float upwards)
     {
         canMove = false;
@@ -222,7 +262,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateHealthBar();
     }
 
-
+    //Kalle
     private void UpdateHealthBar()
     {
         float healthPercent = (float)currentHealth / startingHealth;
@@ -238,7 +278,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
+    //Kalle
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Lava"))
@@ -257,7 +297,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-
+    //Kalle
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Lava"))
@@ -273,7 +313,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
+    //Kalle
     private IEnumerator TakeLavaDamage()
     {
         while (inLava)
