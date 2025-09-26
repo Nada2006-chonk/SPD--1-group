@@ -11,6 +11,7 @@ public class EnemyFollow : MonoBehaviour
     [SerializeField] private Transform Target;
     [SerializeField] private float visionRange = 4f; //när ser fienden spelaren
     [SerializeField] private float attackRange = 1.0f; //när ska fienden attackera spelaren
+    [SerializeField] private Transform attackPoint;
 
 
 
@@ -18,7 +19,10 @@ public class EnemyFollow : MonoBehaviour
     private bool isChasing = false;
     private bool isAttacking = false;
     private float horizontalValue;
+    private int facingDirection = -1;
     private Vector2 moveDirection = Vector2.right;
+    public LayerMask playerLayer;
+
 
     private Rigidbody2D rgbd;
     private SpriteRenderer rend;
@@ -35,6 +39,8 @@ public class EnemyFollow : MonoBehaviour
 
     void Update()
     {
+        horizontalValue = Input.GetAxis("Horizontal");
+
         animator.SetFloat("MoveSpeed", Mathf.Abs(rgbd.linearVelocity.x));
 
         if (Target == null)
@@ -49,6 +55,7 @@ public class EnemyFollow : MonoBehaviour
         if (distanceToPlayer <= visionRange && distanceToPlayer > attackRange)
         {
             ChasePlayer();
+
         }
         else if (distanceToPlayer <= attackRange)
         {
@@ -81,6 +88,23 @@ public class EnemyFollow : MonoBehaviour
         isChasing = false;
         isAttacking = true;
         animator.SetTrigger("DoAttack");
+    }
+
+    public void DealDamage()
+    {
+        Collider2D[] player = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, playerLayer);
+
+        if (player.Length > 0)
+        {
+            player[0].GetComponent<PlayerMovement>().TakeDamage(damageGiven);
+            player[0].GetComponent<PlayerMovement>().TakeKnockback(knockbackForce, upwardsForce);
+        }
+    }
+
+    private void FlipSprite()
+    {
+        facingDirection *= -1;
+        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
     }
 
     //Se till att fienden vänder sig vid enemybox (neo)
