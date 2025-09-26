@@ -10,6 +10,7 @@ TagManager:
   - Lava
   - LavaBubble
   - SpawnPoint
+  - Foreground
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - EnemyBlock
   - Enemy
   - Player
-  - 
+  - Foreground
   - 
   - 
   - 
