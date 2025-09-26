@@ -10,6 +10,7 @@ TagManager:
   - Lava
   - LavaBubble
   - SpawnPoint
+  - Foreground
   layers:
   - Default
   - TransparentFX
@@ -21,9 +22,9 @@ TagManager:
   - EnemyBlock
   - Enemy
   - Player
-  - Debris
-  - Pillar
-  - LightBlocker
+  - Foreground
+  - 
+  - 
   - 
   - 
   - 
@@ -49,12 +50,6 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: LightMask
-    uniqueID: 3411948157
-    locked: 0
-  - name: Midground
-    uniqueID: 119756011
     locked: 0
   - name: Foreground
     uniqueID: 2578063601
