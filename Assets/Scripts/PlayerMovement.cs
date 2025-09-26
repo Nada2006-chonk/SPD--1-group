@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
         //spelaren kan gå (neo)
         rgbd.linearVelocity = new Vector2(horizontalValue * moveSpeed * Time.deltaTime, rgbd.linearVelocity.y);
 
-        //flip sprite
+        //flip sprite (neo)
         horizontalValue = Input.GetAxis("Horizontal");
 
         if(horizontalValue > 0 && transform.localScale.x < 0)
@@ -111,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
         {
             FlipSprite();
         }
+
         //Axis checker, animator (Neo)
         if (CheckIfGrounded() == true && isAttacking == false)
         {
@@ -381,7 +382,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateHealthBar();
     }
 
-
+    //kalle
     public IEnumerator HandleDeath()
     {
         canMove = false;
@@ -407,7 +408,7 @@ public class PlayerMovement : MonoBehaviour
         isDying = false;
     }
 
-
+    //Kalle
     public bool CanMove
     {
         get => canMove;
