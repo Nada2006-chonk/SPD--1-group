@@ -5238,16 +5238,16 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  SpawnPoint: {fileID: 0}
+  SpawnPoint: {fileID: 691510783}
   attackPoint: {fileID: 0}
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 1567270073}
   lightConeDetector: {fileID: 0}
   attackRange: 1
   knockbackForce: 200
   jumpVelocity: 10
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
 --- !u!95 &171991301
 Animator:
   serializedVersion: 7
