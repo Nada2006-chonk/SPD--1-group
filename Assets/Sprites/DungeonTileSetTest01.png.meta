@@ -2766,7 +2766,7 @@ TextureImporter:
         width: 32
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2788,7 +2788,7 @@ TextureImporter:
         width: 32
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2810,7 +2810,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2832,7 +2832,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2854,7 +2854,7 @@ TextureImporter:
         width: 48
         height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2876,7 +2876,7 @@ TextureImporter:
         width: 48
         height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2898,7 +2898,7 @@ TextureImporter:
         width: 16
         height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2920,7 +2920,7 @@ TextureImporter:
         width: 44
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2942,7 +2942,7 @@ TextureImporter:
         width: 44
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -2951,6 +2951,50 @@ TextureImporter:
       bones: []
       spriteID: 765063300ec93ca43a5a4508ca66dbf2
       internalID: -28407520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonTileSetTest01_107
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 184
+        width: 8
+        height: 3
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b00408fb74d41d04bb2c2d70b736e546
+      internalID: -1262518004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonTileSetTest01_108
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 197
+        width: 8
+        height: 3
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bc90d2e2f8c8c344be669a5a69e2c70
+      internalID: -1116774136
       vertices: []
       indices: 
       edges: []
@@ -3010,6 +3054,8 @@ TextureImporter:
       DungeonTileSetTest01_104: 518300409
       DungeonTileSetTest01_105: -186150086
       DungeonTileSetTest01_106: -28407520
+      DungeonTileSetTest01_107: -1262518004
+      DungeonTileSetTest01_108: -1116774136
       DungeonTileSetTest01_11: 1912973366
       DungeonTileSetTest01_12: 2045419366
       DungeonTileSetTest01_13: -1309192294
