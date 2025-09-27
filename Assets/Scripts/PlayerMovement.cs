@@ -179,11 +179,20 @@ public class PlayerMovement : MonoBehaviour
         if (leftHit.collider != null && leftHit.collider.CompareTag("Ground") || rightHit.collider != null && rightHit.collider.CompareTag("Ground"))
         {
             isGrounded = true;
+
+
+            if (leftHit.collider != null)
+                Debug.Log("Grounded on LEFT foot: " + leftHit.collider.name + " (Layer: " + LayerMask.LayerToName(leftHit.collider.gameObject.layer) + ")");
+            if (rightHit.collider != null)
+                Debug.Log("Grounded on RIGHT foot: " + rightHit.collider.name + " (Layer: " + LayerMask.LayerToName(rightHit.collider.gameObject.layer) + ")");
+
+
             return true;
         }
         else
         {
             isGrounded = false;
+            Debug.Log("NOT grounded");
             return false;
         }
 

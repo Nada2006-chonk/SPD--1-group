@@ -14,7 +14,7 @@ public class MovingPlatform : MonoBehaviour
         currentTarget = target1;
     }
 
-
+    // Update is called once per frame
     void FixedUpdate()
     {
         if (transform.position == target1.position)
