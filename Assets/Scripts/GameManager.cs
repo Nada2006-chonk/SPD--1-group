@@ -7,8 +7,21 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField] private bool reloadSceneOnDeath = false;
+    [SerializeField] private Transform firstCheckpoint;
 
     private Vector3 respawnPoint;
+
+
+    private void Start()
+    {
+        // Try to find the player at scene start
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            player.transform.position = GetRespawnPoint();
+        }
+    }
+
     //ser till att endast en gamemanager finns och att den inte destroyas när man resettar scenen
     void Awake()
     {
@@ -16,6 +29,11 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            // set initial respawn point to SpawnPoint at scene start
+            GameObject defaultSpawn = GameObject.FindWithTag("SpawnPoint");
+            if (firstCheckpoint != null)
+                respawnPoint = firstCheckpoint.position;
         }
         else
         {
@@ -23,20 +41,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   //hämtar transform från checkpoint script och sätter respawnPoint
+
+    //hämtar transform från checkpoint script och sätter respawnPoint
     public void SetCheckpoint(Vector3 pos)
     {
         respawnPoint = pos;
     }
 
-    public Vector3 GetRespawnPoint()
+  public Vector3 GetRespawnPoint()
     {
-        if (respawnPoint == Vector3.zero)
-        {
-            GameObject defaultSpawn = GameObject.FindWithTag("SpawnPoint");
-            if (defaultSpawn != null)
-                return defaultSpawn.transform.position;
-        }
         return respawnPoint;
     }
 
@@ -70,7 +83,7 @@ public class GameManager : MonoBehaviour
 
     
 
-    private void RespawnPlayer(GameObject player)
+    public void RespawnPlayer(GameObject player)
     {
         PlayerMovement pm = player.GetComponent<PlayerMovement>();
         if (pm != null)
