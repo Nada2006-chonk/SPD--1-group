@@ -30433,8 +30433,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Make your way to the surface by \ngetting through the obstacles \nand
-    defeating the monsters along your way!!!"
+  m_text: Make your way to the surface!! FIXA REZ
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d3830b630b30034bb81a11070567fc8, type: 2}
   m_sharedMaterial: {fileID: -6486640245818490105, guid: 8d3830b630b30034bb81a11070567fc8, type: 2}
@@ -30461,8 +30460,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -37446,6 +37445,8 @@ MonoBehaviour:
   target: {fileID: 171991299}
   offset: {x: 0, y: 2, z: -10}
   smoothing: 2
+  lockX: 0
+  lockedXValue: 0
 --- !u!114 &1287080768
 MonoBehaviour:
   m_ObjectHideFlags: 0
