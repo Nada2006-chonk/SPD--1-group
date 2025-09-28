@@ -388,7 +388,7 @@ public class PlayerMovement : MonoBehaviour
         while (inLava)
         {
             TakeDamage(1);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.15f);
         }
 
         lavaDamageCoroutine = null;

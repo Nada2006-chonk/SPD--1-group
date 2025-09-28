@@ -3008,7 +3008,7 @@ TextureImporter:
         width: 16
         height: 6
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -3017,6 +3017,28 @@ TextureImporter:
       bones: []
       spriteID: 5e2fea754023bf547a9966438eae5774
       internalID: 78114534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonTileSetTest01_110
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f1fbdeea22bcab40bfd399d3fc79dad
+      internalID: -1525881219
       vertices: []
       indices: 
       edges: []
@@ -3080,6 +3102,7 @@ TextureImporter:
       DungeonTileSetTest01_108: -1116774136
       DungeonTileSetTest01_109: 78114534
       DungeonTileSetTest01_11: 1912973366
+      DungeonTileSetTest01_110: -1525881219
       DungeonTileSetTest01_12: 2045419366
       DungeonTileSetTest01_13: -1309192294
       DungeonTileSetTest01_14: 709452217
