@@ -6109,6 +6109,9 @@ MonoBehaviour:
   attackRange: 1
   knockbackForce: 200
   jumpVelocity: 8
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 256
   enemyLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -30268,7 +30271,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1716903695
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -781294158744790408, guid: d7c15628a4dce416f8e0a0e31a637d8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -33793,7 +33796,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1716903695
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -781294158744790408, guid: d7c15628a4dce416f8e0a0e31a637d8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -39667,7 +39670,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2134694386}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
