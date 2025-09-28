@@ -364,10 +364,12 @@ public class PlayerMovement : MonoBehaviour
                 lavaDamageCoroutine = StartCoroutine(TakeLavaDamage());
             }
         }
+
         if (other.CompareTag("Health"))
         {
             RestoreHealth(other.gameObject);
         }
+
         else if (other.CompareTag("CameraLockZone"))
         {
             var lockZone = other.GetComponent<CameraLock>();
