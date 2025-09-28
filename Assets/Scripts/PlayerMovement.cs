@@ -310,10 +310,7 @@ public class PlayerMovement : MonoBehaviour
     //flyttar spelaren till spawn om hälsan blir 0
     private void Respawn()
     {
-        currentHealth = startingHealth;
-        transform.position = SpawnPoint.position;
-        rgbd.linearVelocity = Vector2.zero;
-        UpdateHealthBar();
+        GameManager.Instance.RespawnPlayer(gameObject);
     }
 
     //Kalle
@@ -391,7 +388,6 @@ public class PlayerMovement : MonoBehaviour
 
         ChangeAnimationState(Player_Dead);
 
-        
         float deathAnimLength = 1f;
         foreach (var clip in animator.runtimeAnimatorController.animationClips)
         {
@@ -404,10 +400,11 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(deathAnimLength);
 
-        Respawn();
+        Respawn();   // ✅ always goes through GameManager
         canMove = true;
         isDying = false;
     }
+
 
     //Kalle
     public bool CanMove
