@@ -2,11 +2,9 @@ using UnityEngine;
 
 public class QuestGiver : MonoBehaviour
 {
-    //Natalia
-
     [SerializeField] private GameObject textPopUp;
 
-    public void OnTriggerEnter(Collider other) 
+    private void OnTriggerEnter2D(Collider2D other)
     {
        if (other.CompareTag("Player"))
         {
@@ -18,7 +16,9 @@ public class QuestGiver : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            textPopUp.SetActive(true);
+            textPopUp.SetActive(false);
         }
     }
+
+    //Natalia
 }
