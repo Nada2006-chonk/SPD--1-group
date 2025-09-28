@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 using System.Collections;
+using UnityEngine.Audio;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -250,7 +251,7 @@ public class PlayerMovement : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            //enemy
+            //enemy (kalle)
             var enemyHealth = hit.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
@@ -262,7 +263,7 @@ public class PlayerMovement : MonoBehaviour
                 continue;
             }
 
-            //pillars
+            //pillars (kalle)
             var destructible = hit.GetComponent<Destructible>();
             if (destructible != null)
             {
@@ -291,6 +292,25 @@ public class PlayerMovement : MonoBehaviour
         if (currentHealth <= 0)
         {
             GameManager.Instance.HandlePlayerDeath(gameObject, killedByLight: false);
+        }
+    }
+
+    private void RestoreHealth(GameObject healthPickup)
+    {
+        if (currentHealth >= startingHealth)
+        {
+            return;
+        }
+        else
+        {
+            currentHealth += 1;
+            UpdateHealthBar();
+            Destroy(healthPickup);
+
+            if (currentHealth >= startingHealth)
+            {
+                currentHealth = startingHealth;
+            }
         }
     }
 
@@ -343,6 +363,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 lavaDamageCoroutine = StartCoroutine(TakeLavaDamage());
             }
+        }
+        if (other.CompareTag("Health"))
+        {
+            RestoreHealth(other.gameObject);
         }
     }
 
