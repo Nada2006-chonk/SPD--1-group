@@ -44,10 +44,12 @@ public class LightConeDetector : MonoBehaviour
                 
                 if (((1 << hit.collider.gameObject.layer) & obstructionMask) != 0)
                 {
+                    Debug.DrawRay(origin, dir * hit.distance, Color.red);
                     continue;
                 }             
                 if (((1 << hit.collider.gameObject.layer) & targetMask) != 0)
                 {
+                    Debug.DrawRay(origin, dir * hit.distance, Color.green);
                     playerInLight = true;
                     break;
                 }

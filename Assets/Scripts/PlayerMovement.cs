@@ -21,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float jumpVelocity = 10f;
 
+    [SerializeField] private LayerMask hittableLayers;
+
 
 
     //neo
@@ -177,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
         if (leftHit.collider != null && leftHit.collider.CompareTag("Ground") || rightHit.collider != null && rightHit.collider.CompareTag("Ground"))
         {
             isGrounded = true;
+
             return true;
         }
         else
@@ -242,14 +245,33 @@ public class PlayerMovement : MonoBehaviour
     //gör damage. Denna funktion kallas på i Attack Animation1 i Unity (neo)
     public void DealDamage()
     {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, hittableLayers);
 
-        if (enemies.Length > 0)
+
+        foreach (var hit in hits)
         {
-            enemies[0].GetComponent<EnemyHealth>().ChangeHealth(-damage);
-            enemies[0].GetComponent<EnemyKnockback>().Knockback(transform, knockbackForce);
+            //enemy
+            var enemyHealth = hit.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.ChangeHealth(-damage);
+                var knockback = hit.GetComponent<EnemyKnockback>();
+                if (knockback != null)
+                    knockback.Knockback(transform, knockbackForce);
+
+                continue;
+            }
+
+            //pillars
+            var destructible = hit.GetComponent<Destructible>();
+            if (destructible != null)
+            {
+                destructible.TakeDamage(damage);
+                continue;
+            }
         }
     }
+
     //Attacken klar (neo)
     private void AttackComplete()
     {
