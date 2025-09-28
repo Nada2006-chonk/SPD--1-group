@@ -368,6 +368,18 @@ public class PlayerMovement : MonoBehaviour
         {
             RestoreHealth(other.gameObject);
         }
+        else if (other.CompareTag("CameraLockZone"))
+        {
+            var lockZone = other.GetComponent<CameraLock>();
+            if (lockZone != null)
+            {
+                CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
+                if (cam != null)
+                {
+                    cam.SetLockX(true, lockZone.LockedXValue);
+                }
+            }
+        }
     }
 
     //Kalle
@@ -382,6 +394,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 StopCoroutine(lavaDamageCoroutine);
                 lavaDamageCoroutine = null;
+            }
+        }
+        else if (other.CompareTag("CameraLockZone"))
+        {
+            CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
+            if (cam != null)
+            {
+                cam.SetLockX(false);
             }
         }
     }
@@ -424,7 +444,7 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(deathAnimLength);
 
-        Respawn();   // ✅ always goes through GameManager
+        Respawn();
         canMove = true;
         isDying = false;
     }

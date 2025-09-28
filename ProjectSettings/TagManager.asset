@@ -12,6 +12,7 @@ TagManager:
   - SpawnPoint
   - Foreground
   - Health
+  - CameraLockZone
   layers:
   - Default
   - TransparentFX
