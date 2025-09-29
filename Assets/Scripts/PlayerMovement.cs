@@ -1,8 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
-using System.Collections;
+using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -18,10 +19,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LightConeDetector lightConeDetector;
     [SerializeField] private float attackRange = 1;
     [SerializeField] private float knockbackForce = 200f;
+    [SerializeField] private AudioClip hit;
+    [SerializeField] private AudioClip jump;
 
     [SerializeField] private float jumpVelocity = 10f;
 
     [SerializeField] private LayerMask hittableLayers;
+
+    private AudioSource audioSource;
 
 
 
@@ -79,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         //när spelet startar är spelaren på full hälsa och kan röra sig (neo)
+        audioSource = GetComponent<AudioSource>();
         canMove = true;
         currentHealth = startingHealth;
         UpdateHealthBar();
@@ -143,6 +149,7 @@ public class PlayerMovement : MonoBehaviour
 
             if(isAttacking == true)
             {
+                audioSource.PlayOneShot(hit, 0.5f);
                 isAttacking = true;
                 ChangeAnimationState(Player_Attack_1);
             }
